@@ -35,28 +35,6 @@ fun String.toIpRange(): IpRange {
     return IpRange(fromIp, toIp)
 }
 
-/**
- * This function takes a list of IpRanges
- * - sorts the list
- * - merges any intersecting ranges
- *
- * @return sorted merged list of IpRanges
- */
-fun List<IpRange>.merge(): List<IpRange> {
-    val sorted = this.sortedBy { it.fromNumericIp }
-    val merged = mutableListOf<IpRange>()
-    var from = sorted.first().fromNumericIp
-    var to = sorted.first().toNumericIp
-    sorted.subList(1, sorted.size).forEach {
-        if (to < it.fromNumericIp) {
-            merged.add(IpRange(from, to))
-            from = it.fromNumericIp
-        }
-        to = it.toNumericIp
-    }
-    merged.add(IpRange(from, to))
-    return merged
-}
 
 /**
  * @return numeric value of an iPv4 address (base 256 for every segment)
