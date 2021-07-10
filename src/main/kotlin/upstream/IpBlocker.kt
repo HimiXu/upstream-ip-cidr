@@ -1,5 +1,6 @@
 package upstream
 
+// ips are provided in CIDR notation
 class IpBlocker(suspiciousIps: List<String>) {
 
     // this is a sorted and merged list of the suspicious ip ranges
