@@ -8,11 +8,14 @@ internal class IpRangeTest {
 
     @Test
     fun in_segment1() {
-        val ipRange1 = "111.111.111.111/24".toIpRange()
+        val ipRange1 = "111.111.111.111/26".toIpRange()
+        assert("111.111.111.64" in ipRange1)
         assert("111.111.111.111" in ipRange1)
-        assert("111.111.111.0" in ipRange1)
-        assert("111.111.111.255" in ipRange1)
-        assert("111.111.111.3" in ipRange1)
+        assert("111.111.111.127" in ipRange1)
+        assertFalse("111.111.111.0" in ipRange1)
+        assertFalse("111.111.111.255" in ipRange1)
+        assertFalse("111.111.111.63" in ipRange1)
+        assertFalse("111.111.111.128" in ipRange1)
         assertFalse("111.111.112.3" in ipRange1)
         assertFalse("111.111.110.3" in ipRange1)
     }

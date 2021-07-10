@@ -7,8 +7,10 @@ class IpBlocker(suspiciousIps: List<String>) {
         val numericIp = incomingIp.toNumericIp()
         val index = suspiciousIps.binarySearch { it.to.compareTo(numericIp) }
         if (index >= 0) return false;
-        val ipRange = suspiciousIps.get(-index-1)
-        return numericIp in ipRange
+        val insertionPoint = -(index+1)
+        if (insertionPoint >= suspiciousIps.size) return true;
+        val ipRange = suspiciousIps[insertionPoint]
+        return numericIp !in ipRange
     }
 }
 
