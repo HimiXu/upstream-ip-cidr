@@ -8,15 +8,15 @@ class IpBlocker(suspiciousIps: List<String>) {
     fun isAllowed(incomingIp: String): Boolean {
         val numericIp = incomingIp.toNumericIp()
         // it searches for the placement of the numericIp in the suspiciousIps list
-        val index = suspiciousIps.binarySearch { it.to.compareTo(numericIp) }
+        val index = suspiciousIps.binarySearch { it.from.compareTo(numericIp) }
         // if we found an index, then it means we have a range starting with that value, it is not allowed
         if (index >= 0) return false;
         // we found the placement
         val insertionPoint = -(index+1)
         // if the placement is at the end of the array then we should compare the last element
-        if (insertionPoint == suspiciousIps.size) return numericIp !in suspiciousIps[suspiciousIps.size-1]
+        if (insertionPoint == 0) return true //return numericIp !in suspiciousIps[suspiciousIps.size-1]
         // otherwise we should compare to the value currently in placement
-        val ipRange = suspiciousIps[insertionPoint]
+        val ipRange = suspiciousIps[insertionPoint-1]
         return numericIp !in ipRange
     }
 }
