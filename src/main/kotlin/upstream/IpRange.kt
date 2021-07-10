@@ -3,13 +3,13 @@ package upstream
 import java.lang.IllegalArgumentException
 import kotlin.math.pow
 
-data class IpRange(val from: Long, val to: Long) {
+data class IpRange(val fromNumericIp: Long, val toNumericIp: Long) {
     operator fun contains(ip: String): Boolean {
         return contains(ip.toNumericIp())
     }
 
     operator fun contains(numericIp: Long): Boolean {
-        return numericIp in from..to
+        return numericIp in fromNumericIp..toNumericIp
     }
 }
 
@@ -43,16 +43,16 @@ fun String.toIpRange(): IpRange {
  * @return sorted merged list of IpRanges
  */
 fun List<IpRange>.merge(): List<IpRange> {
-    val sorted = this.sortedBy { it.from }
+    val sorted = this.sortedBy { it.fromNumericIp }
     val merged = mutableListOf<IpRange>()
-    var from = sorted.first().from
-    var to = sorted.first().to
+    var from = sorted.first().fromNumericIp
+    var to = sorted.first().toNumericIp
     sorted.subList(1, sorted.size).forEach {
-        if (to < it.from) {
+        if (to < it.fromNumericIp) {
             merged.add(IpRange(from, to))
-            from = it.from
+            from = it.fromNumericIp
         }
-        to = it.to
+        to = it.toNumericIp
     }
     merged.add(IpRange(from, to))
     return merged

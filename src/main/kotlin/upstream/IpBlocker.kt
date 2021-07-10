@@ -9,7 +9,7 @@ class IpBlocker(suspiciousIps: List<String>) {
     fun isAllowed(incomingIp: String): Boolean {
         val numericIp = incomingIp.toNumericIp()
         // it searches for the placement of the numericIp in the suspiciousIps list
-        val index = suspiciousIps.binarySearch { it.from.compareTo(numericIp) }
+        val index = suspiciousIps.binarySearch { it.fromNumericIp.compareTo(numericIp) }
         // if we found an index, then it means we have a range starting with that value, it is not allowed
         if (index >= 0) return false;
         // we found the placement
